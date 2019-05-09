@@ -1,0 +1,77 @@
+<%- include('./layout/header') %>
+<style>
+    .ui .image:hover {
+        border-bottom: 3px solid #4fc08d;
+    }
+</style>
+
+<div class="ui stackable four column grid" style="padding: 0 100px;">
+    <% parts.forEach(function (part) { %>
+        <%if (part.show) {%>
+            <div class="column bookItem" style="margin: 20px 0;">
+                <div class="ui card cardWrap">
+
+                    <a class="image" href="/inventory/<%= part._id%>">
+                        <img class="imgTarget" style="height: 360px;" src="<%= "/img/"+part.image %>">
+                    </a>
+                    <div class="content">
+                        <div  style="width: 100%;display: flex; justify-content: space-between;">
+                            <a style="font-size: 18px; color: #000;" class="header" href="/inventory/<%= part._id%>"><%= part.name %></a>
+                            <div class="ui star rating" data-rating="<%= part.score %>" data-max-rating="5"></div>
+                        </div>
+
+                        <div class="meta">
+                            <a><%= part.model_no %></a>
+                        </div>
+
+                        <div style="font-size: 18px; color: #000;" data-id="<%= part._id%>">
+                            Like
+                            <% if(part.like){ %>
+                            <i class="fa fa-heart" ></i>
+                            <%} else {%>
+                            <i class="fa fa-heart-o"></i>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <%}%>
+    <% }) %>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $('.ui .rating').rating('disable');
+        $('.imgTarget').each(function (index, item) {
+            if (item.src.split("http://localhost:3000/img/")[1].slice(0, 4) === "http") {
+                item.src = item.src.split("http://localhost:3000/img/")[1];
+            }
+        });
+
+        var likeBtn = $('i');
+        $.each(likeBtn, function(index, item) {
+            $(item).on('click', function() {
+                console.log(item);
+                var itemData = $(item).closest('div').data();
+                if(item.classList.contains("fa-heart")) {
+                    item.classList.remove("fa-heart");
+                    item.classList.add("fa-heart-o")
+                    window.location.href = "/home/" + itemData.id + "/unfavorite";
+                }
+                else {
+                    item.classList.remove("fa-heart-o");
+                    item.classList.add("fa-heart");
+                    window.location.href = "/home/" + itemData.id + "/favorite";
+                }
+
+
+            })
+        });
+
+
+    })
+
+</script>
+
+<%- include('./layout/footer') %>

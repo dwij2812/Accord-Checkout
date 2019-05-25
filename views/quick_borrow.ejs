@@ -1,0 +1,76 @@
+<%- include('./layout/header') %>
+<div class="ui grid">
+    <div class="five wide column"></div>
+    <div class="six wide column">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <div class="content">
+                        Quick Borrow & Return
+                    </div>
+                </h2>
+                <form class="ui large form" method="post">
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="wrench icon"></i>
+                                <input id="part_id" type="text" name="part_id" placeholder="Part ID">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input id="reader_id" type="text" name="reader_id" placeholder="Reader ID">
+                            </div>
+                        </div>
+                        <div class="field">
+                                <div class="ui left icon input">
+                                    <i class="calendar icon"></i>
+                                    <input id="days" type="number" name="days" placeholder="Number of Days to Issue">
+                                </div>
+                            </div>
+                        <div>
+                            <div id="partReturn" class="ui button">Return</div>
+                            <div id="partBorrow" class="ui green button">Borrow</div>
+                        </div>
+                    </div>
+                    <div class="ui error message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(function() {
+        var $dom = {
+            part_id: $('#part_id'),
+            reader_id: $('#reader_id'),
+            days: $('#days'),
+            partReturn: $('#partReturn'),
+            partBorrow: $('#partBorrow')
+        }
+        
+        $dom.partBorrow.on('click', function() {
+            var partId_val = $dom.part_id.val(),
+                readerId_val = $dom.reader_id.val(),
+                day_val = $dom.days.val();
+            if (partId_val && readerId_val) {
+                window.location.href = '/inventory/'+ partId_val +'/borrow/' + readerId_val+'/'+day_val ;
+            }
+            
+        })
+
+        $dom.partReturn.on('click', function() {
+            var partId_val = $dom.part_id.val(),
+                readerId_val = $dom.reader_id.val();
+            if (partId_val && readerId_val) {
+                window.location.href = '/profile/'+ partId_val +'/return2/' + readerId_val ;
+            }
+        })
+        
+    })
+
+</script>
+<%- include('./layout/footer') %>

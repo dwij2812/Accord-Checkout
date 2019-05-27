@@ -1,0 +1,154 @@
+<%- include('./layout/header') %>
+    <style>
+        .blockHidden {
+            display: none !important;
+        }
+    </style>
+    <div class="partWrapper ui vertically divided grid" style="padding: 0 200px;">
+        <h1 style="font-size: 26px; color: #494949;">
+            <%= part.name %>
+        </h1>
+        <div class="two column row">
+            <div class="column" style="display: flex;">
+                <div>
+                    <img class="imgTarget" style="width: 200px;" src="<%= "/img/"+part.image %>">
+                </div>
+                <div style=" margin-left: 30px;">
+                    <p>   
+                        <span style="color: #666666;">Part ID</span>: <%= part._id%>
+                    </p>
+                    <p>   
+                        <span style="color: #666666;">Location</span>: <%= part.location%>
+                    </p>
+                    <p>   
+                        <span style="color: #666666;">Model No.</span>: <%= part.model_no%>
+                    </p>
+                    <p> 
+                        <span style="color: #666666;">Make</span>: <%= part.make%>
+                    </p>
+                    <p>
+                        <span style="color: #666666;">Published Date</span>: <%= part.date%>
+                    </p>
+                    <p> 
+                        <span style="color: #666666;">Score</span>: 
+                        <span class="ui star rating" data-rating="<%= part.score %>" data-max-rating="5"></span>
+                    </p>
+                    <p>
+                        <span style="color: #666666;">Inventory</span>: <%= part.inventory%>
+                    </p>
+                    <p>
+                        <span style="color: #666666;">Pv</span>: <%= part.pv%>
+                    </p>
+                    
+                </div>
+            </div>
+            <div class="column">
+                <% if (user) { %>
+                    <!--% if(user){%-->
+                        <div  class="borrowBtn extra right floated">
+                            <div class="ui right floated primary button  <% if (!part.inventory || !part.show) {%> disabled <% } %>">
+                                <i class="exchange icon"></i>
+                                Borrow One
+                            </div>
+                        </div>
+                    <!--% } %>-->
+                <% } %>
+                        
+            </div>
+        </div>
+        <div class="one column row">
+            <div class="column">
+                <h2 style="color:#4fc08d; font-size: 20px;">Brief Description</h2>
+                <p><%- part.description %></p>
+            </div>
+            
+        </div>
+
+        <% if (user) { %>
+            <% if(user.isAdmin){%>
+            <div class="ui small test modal bModel transition hidden">
+                <div class="header">Borrow the part by user ID </div>
+                <div class="content">
+                    <div class="ui stacked segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input class="id_input" type="text" name="user_id" placeholder="User ID">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div id="no" class="ui negative button">No </div>
+                    <div id="yes" class="ui positive right labeled icon button" onclick="">
+                        Yes
+                        <a id="sureLink" href="/inventory/<%= part._id%>/borrow" style="color: #fff;"></a>
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+            <%} else{ %>
+                <div class="ui small test modal bModel transition hidden">
+                    <div class="header">Please Confirm? </div>
+                    <div class="content">
+                            <div class="ui stacked segment">
+                                <div class="field">
+                                    <p>Please Enter the Number of Days for which you would like to reserve the Part (1-30) Day(s)</p>
+                                    <div class="ui left icon input">
+                                        <i class="calendar icon"></i>
+                                        <input class="id_inputuser" type="number" name="days" placeholder="(1-30) Day(s)" min="1" max="30">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="actions">
+                        <div id="no" class="ui negative button">No </div>
+                        <div id="yesu" class="ui positive right labeled icon button" onclick="">
+                            Yes
+                            <a id="sureLinkuser" href="/inventory/<%= part._id%>/borrowByUser" style="color: #fff;"></a>
+                            <i class="checkmark icon"></i>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+        <% } %>   
+        
+    </div>
+    <script>
+        $(function() {
+            $('.ui .rating').rating('disable');
+            $('.borrowBtn').on('click', function() {
+                 $('.small.bModel').modal('show');
+            })
+            $('.reBtn').on('click', function() {
+                 $('.small.alertModal').modal('show');
+            })
+            
+            var $id_input = $('.id_input'),
+                $id_inputuser = $('.id_inputuser'),
+                $sureLink = $('#sureLink'),
+                $sureLinkuser = $('#sureLinkuser')
+            $('#yes').on('click', function() {
+                var userId = $id_input.val();
+                if (!userId) {
+                    return;
+                }
+                var temp = $sureLink[0].href;
+                $sureLink[0].href = temp + '/' + userId;
+
+                window.location.href = $sureLink[0].href;
+            })
+            $('#yesu').on('click', function() {
+                var days = $id_inputuser.val();
+                if(days<1 || days>30){
+                    alert("Please Enter a Valid Number of days to reserve this part (1-30)");
+                    return;
+                }
+                var temp = $sureLinkuser[0].href;
+                $sureLinkuser[0].href = temp + '/' + days;
+
+                window.location.href = $sureLinkuser[0].href;
+            })
+        })
+    </script>
+<%- include('./layout/footer') %>

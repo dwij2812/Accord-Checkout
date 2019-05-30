@@ -1,7 +1,11 @@
 # Accord-Checkout
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Dependency Status](https://david-dm.org/dwij2812/Accord-Checkout.svg?style=flat)](https://david-dm.org/dwij2812/Accord-Checkout)
+
+[![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-informational.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+![Depfu](https://img.shields.io/depfu/dwij2812/Accord-Checkout.svg?style=for-the-badge)
+
 [![HitCount](http://hits.dwyl.io/dwij2812/Accord-Checkout.svg)](http://hits.dwyl.io/dwij2812/Accord-Checkout)
+
 
 A Minimal Inventory Management and Part tracking system for Accordians built using Node.JS
 

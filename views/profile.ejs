@@ -1,0 +1,393 @@
+<%- include('./layout/header') %>
+    <div class="userWrapper ui vertically divided grid" style="padding: 0 200px;">
+        <h1 style="font-size: 26px; color: #494949;">
+            <%= profile.name %>
+        </h1>
+        <div class="two column row">
+            <div class="column" style="display: flex;">
+                <div>
+                    <div style="width: 200px; height: 200px; background: #eee; overflow: hidden;">
+                        <img style="width: 200px; height: 200px;"  src="<%= "/img/"+profile.avatar %>">
+                    </div>
+                </div>
+                <div style="margin-left: 30px;">
+                    <p>
+                        <span style="color: #666666;">Id</span>:
+                        <%= profile.id%>
+                    </p>
+                    <p>
+                        <span style="color: #666666;">Gender</span>:
+                        <span data-gender="<%= profile.gender%>" class="gender"></span>
+                    </p>
+                    <p>
+                        <span style="color: #666666;">Introduction</span>:
+                        <%= profile.bio%>
+                    </p>
+                </div>
+            </div>
+            <div class="column">
+            </div>
+        </div>
+        <div class="one column row">
+            <div class="column">
+                <h2 style="color:#4fc08d; font-size: 20px;">Borrowed parts</h2>
+                <div class="ui items">
+                   <% borrow.forEach(function(item) {%>
+                    <hr>
+                    <div class="borrowItem item" data-id="<%= item.id %>" data-partid="<%= item.partId%>" data-userid="<%= user.id%>">
+                        <div class="ui small image">
+                            <a href="/inventory/<%= item.partId %>"><img class="item-image" style="height: 180px;" src="/img/<%= item.image %>"></a>
+                        </div>
+                        <div class="content">
+                            <div class="header">
+                                <a href="/inventory/<%= item.partId %>"><%= item.name %></a>
+                            </div>
+                            <div class="meta" >
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span class="price"><b>Part ID:  </b><%= item.partId %></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span class="stay"><b>Borrow date: </b><%= item.created_at %> </span>
+                                    <% if(item.bool) {%>
+                                            <span class="borrowId" style="color: #37a029;">Return date: <%= item.returnDate %></span>
+                                    <% } else {%>
+                                            <span class="expire_date" style="color: red;">Request Expire date: <%= item.returnTime %></span>
+                                    <% }%>
+                                    
+                                </div>
+                            </div>
+                            <div class="description" style="display: flex; justify-content: space-between;">
+                                <div class="alertMSG-wrap">
+                                    <div class="alertMSG ui custom button">Click to View Description</div>
+                                </div>
+                                <div class="ui custom popup top left transition hidden">
+                                    <p><%- item.description %></p>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <% if(item.bool) {%>
+                                        <p class="text-overflow" style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3; overflow: hidden;color:#37a029; font-size:20px; ">
+                                            Returned
+                                        </p>
+                                <% } else {%>
+                                        <p class="text-overflow" style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3; overflow: hidden;color:#ff0000; font-size:20px;">
+                                            Not returned
+                                        </p>
+                                <% }%>
+                                
+                                
+                            </div>
+                            <% if(!item.bool && !item.approval){%>
+                                <div class="extra returnBtn">
+                                    <div class="ui right floated primary button">Return the part  <i class="right chevron icon"></i> </div>
+                                </div>
+                            <% } else if(!item.bool && item.approval) { %>
+                                <div class="extra returnBtn">
+                                    <div class="ui right floated yellow button disabled">Awaiting Admin approval  <i class="clock icon"></i> </div>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui small test modal transition hidden">
+            <div class="header">Return the part </div>
+            <div class="content">
+                <p>Are you sure you want to return this part?</p>
+            </div>
+            <div class="actions">
+                <div id="noDelete" class="ui negative button">No </div>
+                <div id="yesDelete" class="ui positive right labeled icon button" onclick="$(this).find('#sureLink')[0].click();">
+                    <a style="color: #fff; " id="sureLink" href="#">Yes</a> <i class="checkmark icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('.ui .rating').rating('disable');
+            var $gender = $('.gender');
+            var gender = $gender.data('gender');
+            switch (gender) {
+                case 'm': $gender.text('male');break;
+                case 'f': $gender.text('female');break;
+                default: $gender.text('secret');
+            }
+
+            var returnBtn = $('.returnBtn');
+            $.each(returnBtn, function (index, item) {
+                $(item).on('click', function (event) {
+                    var itemId = $(this).closest('.borrowItem').data('id'),
+                        itemPartId = $(this).closest('.borrowItem').data('partid');
+                        userId = $(this).closest('.borrowItem').data('userid');
+                    $('.small.modal').find('#sureLink')[0].href = '/profile/'+ itemPartId +'/returnu/' + userId;
+                    $('.small.modal').modal('show');
+                })
+            });
+
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+           
+            var Inventory = {
+                init: function () {
+                    this.pageInit();
+                    this.bindEvent();
+                },
+                pageInit: function () {
+                    $('.show-list.ui .rating').rating('disable');
+                    $('.alertMSG').popup();
+
+                },
+                bindEvent: function () {
+                    var editBtn = $('.edit'),
+                        deleteBtn = $('.delete'),
+                        noDelete = $('#noDelete'),
+                        yesDelete = $('#yesDelete'),
+                        addBtn = $('#add'),
+                        alertMSG = $(".alertMSG");
+                    $.each(deleteBtn, function(index, item) {
+                        $(item).on('click', function(event) {
+                            var itemId = $(this).closest('tr').data('id');
+                            $('.small.modal').find('#deleteLink')[0].href = "/inventory/"+itemId+"/remove";
+                            $('.small.modal').modal('show');
+                        })  
+                    });
+                    $.each(alertMSG, function(index, item) {
+                        $(item)
+                            .popup({
+                                popup: $(this).closest('.alertMSG-wrap').siblings('.popup'),
+                                on: 'click'
+                            });
+                    })
+                    $('#formCancel').on('click', function() {
+                        $('.fullscreen.modal').modal('hide');
+                    })
+                    $('#realSubmit').on('click', function() {
+                        submit();
+                    })
+                    $('#formSubmit').on('click', function() {
+                        $('#realSubmit').click();
+                    })
+                    addBtn.on('click', function() {
+                        $('.addPart.fullscreen.modal').modal('show');
+                    })
+                    $('#formEditCancel').on('click', function () {
+                        $('.editPart.fullscreen.modal').modal('hide');
+                    })
+                    $('#realEditSubmit').on('click', function() {
+                        editSubmit();
+                    })
+                    $('#formEditSubmit').on('click', function() {
+                        $('#realEditSubmit').click();
+                    })
+                    $.each(editBtn, function(index, item) {
+                        $(item).on('click', function() {
+                            $('.editPart.fullscreen.modal').modal('show');
+                            var itemData = $(item).closest('tr').data();
+                            var editDom = $('.editPart.modal');
+                            $(editDom).find('.name')[0].value = itemData.name;
+                            $(editDom).find('.model_no')[0].value = itemData.model_no;
+                            $(editDom).find('.make')[0].value = itemData.make;
+                            $(editDom).find('.inventory')[0].value = itemData.inventory;
+                            $(editDom).find('.date')[0].value = itemData.date;
+                            $(editDom).find('.score')[0].value = itemData.score;
+                            $(editDom).find('.description')[0].value = itemData.description; 
+                            $(editDom).find('.editForm')[0].action = "/inventory/" + itemData.id + "/edit";
+                        })
+                    })
+
+                    $('#GetPart').on('click', function() {
+                        var part_isbn = $("#PartISBN"),
+                            prompt = $('#prompt');
+                        var isbn = $(part_isbn).val();
+                        var addForm = $('.add-form');
+                        var mainTarget = $(this); 
+
+                        if (isbn) {
+                            mainTarget.addClass('disabled');
+                            mainTarget.html('<i class=\"spinner icon turn-around\"  style=\"font-size:16px;\"></i>Waiting...');
+                            $.get("https://bird.ioliu.cn/v1?url=https://api.douban.com/v2/part/isbn/"+isbn, function (data) {
+                                if (data.title) {
+                                    $(addForm).find('.name')[0].value = data.title;
+                                    $(addForm).find('.model_no')[0].value = data.model_no.join(',');
+                                    $(addForm).find('.make')[0].value = data.publisher;
+                                    $(addForm).find('.image_url')[0].value = data.images.large;
+                                    $(addForm).find('.date')[0].value = data.pubdate;
+                                    $(addForm).find('.score')[0].value = Math.floor(data.rating.average/2);
+                                    $(addForm).find('.description')[0].value = data.summary;  
+                                    $(prompt).removeClass('hidden').addClass('positive').text('Get Successfully!')
+                                } else {
+                                    $(prompt).removeClass('hidden').addClass('warning').text('Can not find the part info!')
+                                }
+                                setTimeout(function () {
+                                    // $(prompt).addClass('hidden');
+                                    mainTarget.removeClass('disabled');
+                                    mainTarget.html('Get');
+                                }, 1000) 
+                            });
+                        }
+                    })
+                }
+            }
+            Inventory.init();
+            function submit() {
+                $(".ui.form").form(
+                    {
+                        inline: true,
+                        on: 'blur',
+                        fields: {
+                            name: {
+                                identifier: 'name',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Part name should not be empty'
+                                }]
+                            },
+                            location: {
+                                identifier: 'location',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Part location should not be empty'
+                                }]
+                            },
+                            model_no: {
+                                identifier: 'model_no',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Model No should not be empty'
+                                }]
+                            },
+                            make: {
+                                identifier: 'make',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Make should not be empty'
+                                }]
+                            },
+                            score: {
+                                identifier: 'score',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Score should not be empty'
+                                },{
+                                    type: 'integer[0..5]',
+                                    prompt: 'Score should be 0 to 5'
+                                }]
+                            },
+                            inventory: {
+                                identifier: 'inventory',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Inventory should not be empty'
+                                }, {
+                                    type: 'integer[0..10000]',
+                                    prompt: 'Inventory can not be less than 0 or larger than 10000'
+                                }]
+                            },
+                            date: {
+                                identifier: 'date',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Date should not be empty'
+                                }]
+                            },
+                            description: {
+                                identifier: 'description',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Description should not be empty'
+                                }]
+                            }
+                        },
+                    }, {
+                        onSuccess: function () {
+                            console.log('ok')
+                        }
+                    }
+                );
+            }
+            function editSubmit() {
+                $(".ui.form").form(
+                    {
+                        inline: true,
+                        on: 'blur',
+                        fields: {
+                            name: {
+                                identifier: 'name',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Part name should not be empty'
+                                }]
+                            },
+                            name: {
+                                identifier: 'location',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Part location should not be empty'
+                                }]
+                            },
+                            model_no: {
+                                identifier: 'model_no',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Model No should not be empty'
+                                }]
+                            },
+                            make: {
+                                identifier: 'make',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Make should not be empty'
+                                }]
+                            },
+                            score: {
+                                identifier: 'score',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Score should not be empty'
+                                },{
+                                    type: 'integer[0..5]',
+                                    prompt: 'Score should be 0 to 5'
+                                }]
+                            },
+                            inventory: {
+                                identifier: 'inventory',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Inventory should not be empty'
+                                }, {
+                                    type: 'integer[0..10000]',
+                                    prompt: 'Inventory can not be less than 0 or larger than 10000'
+                                }]
+                            },
+                            date: {
+                                identifier: 'date',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Date should not be empty'
+                                }]
+                            },
+                            description: {
+                                identifier: 'description',
+                                rules: [{
+                                    type: 'empty',
+                                    prompt: 'Description should not be empty'
+                                }]
+                            }
+                        },
+                    }, {
+                        onSuccess: function () {
+                            console.log("edit ok!")
+                        }
+                    }
+                );
+            }
+        })
+        
+    </script>
+    <%- include('./layout/footer') %>

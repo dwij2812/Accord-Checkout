@@ -23,5 +23,5 @@ A Minimal Inventory Management and Part tracking system for Accordians built usi
 4. Start MongoDB compass and connect to the MongoDB Server on its Default Port.
 5. Now Navigate to the Project's Root Directory and launch the app using the command `node index`.
 6. The App will now start and the PORT where the app will listen will be printed in the terminal.
-7. To access the app use the address: `http://[**HOST_SERVER_IP_ADDRESS**]:[**PORT_NUMBER**]` with any web browser.
+7. To access the app use the address: `http://[HOST_SERVER_IP_ADDRESS]:[PORT_NUMBER]` with any web browser.
 8. Use Signup Option to create New Users and to make a user as the administrator use MongoDB Compass and Navigate to **inventory_system** database **Users** collection and set the isAdmin field to True in the corresponding Document to the intended user.

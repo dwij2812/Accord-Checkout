@@ -4,6 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 ![Depfu](https://img.shields.io/depfu/dwij2812/Accord-Checkout.svg?style=for-the-badge)
 
+
 [![HitCount](http://hits.dwyl.io/dwij2812/Accord-Checkout.svg)](http://hits.dwyl.io/dwij2812/Accord-Checkout)
 
 
@@ -14,12 +15,12 @@ A Minimal Inventory Management and Part tracking system for Accordians built usi
 #### For Users
 
   - Users can make accounts using Signup page and the use the Sign-in page to log on into the account.
-  - Login Sessions are maintained so no need to login everytime if you use them frequently.
+  - Login Sessions are maintained so no need to login every time if you use them frequently.
   - Users can search for parts in the inventory using any attributes like model number, product make(brand), product name etc.
-  - Users can mark their favourite parts so they can appear above others everytime.
-  -  Borrow parts from the inventory by click of a button for upto 30 days.
+  - Users can mark their favorite parts so they can appear above others every time.
+  -  Borrow parts from the inventory by click of a button for up to 30 days.
   -  User can view the entire transaction log of the parts that were issued by him/her at any given point of time using this system.
-  -  For return of any part the user can create create return requests which wil be approved by the administrator upon successful return of the parts.
+  -  For return of any part the user can create create return requests which will be approved by the administrator upon successful return of the parts.
 
 #### For Administrators
   - Add/Delete/Edit parts in the inventory.
@@ -48,5 +49,5 @@ A Minimal Inventory Management and Part tracking system for Accordians built usi
 6. The App will now start and the PORT where the app will listen will be printed in the terminal.
 7. To access the app use the address: `http://[HOST_SERVER_IP_ADDRESS]:[PORT_NUMBER]` with any web browser.
 8. Use Signup Option to create New Users and to make a user as the administrator use MongoDB Compass and Navigate to **inventory_system** database **Users** collection and set the isAdmin field to True in the corresponding Document to the intended user.
-9. App Logs can be founds in the logs folder once the app is running.
-
+9. App logs can be found in the logs folder once the application is running.
+10. Also for viewing logs in real-time we are using winston logger in the application terminal to display all the requests and also colorize it to show the severity and the types of errors.

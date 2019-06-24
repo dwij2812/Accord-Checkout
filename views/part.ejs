@@ -1,4 +1,5 @@
 <%- include('./layout/header') %>
+
     <style>
         .blockHidden {
             display: none !important;
@@ -11,20 +12,20 @@
         <div class="two column row">
             <div class="column" style="display: flex;">
                 <div>
-                    <img class="imgTarget" style="width: 200px;" src="<%= "/img/"+part.image %>">
+                    <img class="imgTarget" style="width: 200px;" src="<%= part.image %>">
                 </div>
                 <div style=" margin-left: 30px;">
                     <p>   
                         <span style="color: #666666;">Part ID</span>: <%= part._id%>
                     </p>
                     <p>   
-                        <span style="color: #666666;">Location</span>: <%= part.location%>
+                        <span style="color: #666666;">Managed By</span>: <%= managed_by %> (<%= part.location %>)
                     </p>
                     <p>   
-                        <span style="color: #666666;">Model No.</span>: <%= part.model_no%>
+                        <span style="color: #666666;">Author</span>: <%= part.model_no%>
                     </p>
                     <p> 
-                        <span style="color: #666666;">Make</span>: <%= part.make%>
+                        <span style="color: #666666;">Publisher</span>: <%= part.make%>
                     </p>
                     <p>
                         <span style="color: #666666;">Published Date</span>: <%= part.date%>
@@ -34,10 +35,10 @@
                         <span class="ui star rating" data-rating="<%= part.score %>" data-max-rating="5"></span>
                     </p>
                     <p>
-                        <span style="color: #666666;">Inventory</span>: <%= part.inventory%>
+                        <span style="color: #666666;">No of Books Available</span>: <%= part.inventory%>
                     </p>
                     <p>
-                        <span style="color: #666666;">Pv</span>: <%= part.pv%>
+                        <span style="color: #666666;">Views</span>: <%= part.pv%>
                     </p>
                     
                 </div>
@@ -74,6 +75,13 @@
                             <div class="ui left icon input">
                                 <i class="user icon"></i>
                                 <input class="id_input" type="text" name="user_id" placeholder="User ID">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <p>Please Enter the Number of Days for which you would like to reserve the Part</p>
+                            <div class="ui left icon input">
+                                <i class="calendar icon"></i>
+                                <input class="dayinput" type="number" name="dayinput" placeholder="No. of Days" min="1">
                             </div>
                         </div>
                     </div>
@@ -127,14 +135,16 @@
             var $id_input = $('.id_input'),
                 $id_inputuser = $('.id_inputuser'),
                 $sureLink = $('#sureLink'),
-                $sureLinkuser = $('#sureLinkuser')
+                $sureLinkuser = $('#sureLinkuser'),
+                $dayinput = $('.dayinput')
             $('#yes').on('click', function() {
                 var userId = $id_input.val();
+                var days = $dayinput.val();
                 if (!userId) {
                     return;
                 }
                 var temp = $sureLink[0].href;
-                $sureLink[0].href = temp + '/' + userId;
+                $sureLink[0].href = temp + '/' + userId + '/' +days + '/' + '<%= part.location%>';
 
                 window.location.href = $sureLink[0].href;
             })
@@ -145,8 +155,7 @@
                     return;
                 }
                 var temp = $sureLinkuser[0].href;
-                $sureLinkuser[0].href = temp + '/' + days;
-
+                $sureLinkuser[0].href = temp + '/' + days + '/' + '<%= part.location%>';
                 window.location.href = $sureLinkuser[0].href;
             })
         })

@@ -1,0 +1,28 @@
+<%- include('./layout/header') %>
+<div class="ui items" style="padding: 0 100px;">
+    <% newUser.forEach(function(user){ %>
+    <div class="item">
+        <a class="ui tiny image" href="/profile/<%= user.userId%>"  style="width: 72px; height: 72px; overflow: hidden; background: #eee;">
+            <img src="/img/<%= user.avatar%>">
+        </a>
+        <div class="content">
+            <a class="header" href="/profile/<%= user.userId%>"><%= user.name%></a>
+            <div class="description">
+                <p><span style="color: #666;">Employee Id</span> : <%= user.id%></p>
+                <p><span style="color: #666;">User Name</span> : <%= user.name%></p>
+                <p><span style="color: #666;">Gender</span> : <%= user.gender%></p>
+                <p><span style="color: #666;">User Bio</span>: <%= user.bio%></p>
+            </div>
+            <div class="extra returnBtn">
+                <div class="ui right floated primary button" onclick="approveuser('<%= user.id %>')">Approve this User<i class="right chevron icon"></i> </div>
+            </div>
+        </div>
+    </div>
+    <% }) %>
+</div>
+<script>
+    function approveuser(userId){
+        window.location.href = '/profile/approve/'+ userId ;
+    }
+    </script>
+<%- include('./layout/footer') %>

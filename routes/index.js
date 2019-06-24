@@ -12,6 +12,7 @@ module.exports = function (app) {
     app.use('/borrow', require('./borrow'));
     app.use('/quick_borrow', require('./quick_borrow'));
     app.use('/approval', require('./approval'));
+    app.use('/userApproval', require('./userApproval'));
     // 404 page
     app.use(function (req, res) {
         if (!res.headersSent) {

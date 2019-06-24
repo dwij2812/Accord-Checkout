@@ -12,7 +12,7 @@ router.get('/:partId', checkIsAdmin, async (function (req, res, next) {
     var result = [];
     try {
         var users = await (BorrowPartModel.getBorrowUsers(partId));
-        users.forEach(async (function (user) {
+        users.forEach(async (function(user){
             var userInfo = await (UserModel.getUserByDefaultId(user.userId))
             result.push({
                 userId: user.userId,
@@ -28,16 +28,16 @@ router.get('/:partId', checkIsAdmin, async (function (req, res, next) {
             })
         }));
 
-        setTimeout(function () {
+        setTimeout(function() {
             res.render('borrow', {
                 borrowUser: result
             });
-        }, 1000);
+        }, 1000);  
 
     } catch (error) {
         next();
     }
-
+      
 }));
 
 module.exports = router;

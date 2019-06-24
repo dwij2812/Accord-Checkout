@@ -15,6 +15,7 @@ router.get('/', checkIsAdmin, async(function (req, res, next) {
     
     try {
         var parts = await (InventoryModel.getParts(admin));
+        var admins = await (UserModel.getAdmins());
         parts.forEach(async (function(part) {
             try {
                 var borrowCount = await (BorrowPartModel.getBorrowPartsCount(part._id));
@@ -26,7 +27,8 @@ router.get('/', checkIsAdmin, async(function (req, res, next) {
 
         setTimeout(() => {
             res.render('inventory', {
-                parts: parts
+                parts: parts,
+                admins: admins
             });
         }, 1000)
     } catch (error) {
@@ -95,25 +97,25 @@ router.post('/', checkIsAdmin, async (function (req, res, next) {
     
 }));
 
-router.get('/:partId', function (req, res, next) {
+router.get('/:partId', async(function (req, res, next) {
     var partId = req.params.partId;
-
-    Promise.all([
-        InventoryModel.getPartById(partId),
-        InventoryModel.incPv(partId)
-    ])
-        .then(function (result) {
-            var part = result[0];
+try{
+            var part = await(InventoryModel.getPartById(partId));
+            await(InventoryModel.incPv(partId));
+            var manager = await(UserModel.getUserById(part.location));
+            var managed_by = manager.name;
             if (!part) {
                 throw new Error('The part does not exist!');
             }
             part.location = part.location;
             res.render('part', {
-                part: part
+                part: part, managed_by: managed_by
             });
-        })
-        .catch(next);
-});
+        }catch (error) {
+            req.flash('error', 'Something go wrong, please try again!');
+            next();
+        }
+}));
 
 router.get('/:partId/remove', checkIsAdmin, function (req, res, next) {
     var partId = req.params.partId;
@@ -187,9 +189,10 @@ router.get('/:partId/borrow', checkIsAdmin, async (function (req, res, next) {
     }
     
 }));
-router.get('/:partId/borrow/:userId/:day', checkIsAdmin, async (function (req, res, next) {
+router.get('/:partId/borrow/:userId/:day/:manage', checkIsAdmin, async (function (req, res, next) {
     var userId = req.params.userId;
     var partId = req.params.partId;
+    var manage = req.params.manage;
     var day = req.params.day;
     var user = await (UserModel.getUserById(userId));
     if (!user) {
@@ -203,7 +206,8 @@ router.get('/:partId/borrow/:userId/:day', checkIsAdmin, async (function (req, r
         partId: partId,
         day:parseInt(day),
         bool: false,
-        approval: false
+        approval: false,
+        managed_by: manage
     };
     try {
         var part = await (InventoryModel.getRawPartById(borrow.partId));
@@ -233,16 +237,18 @@ router.get('/:partId/borrow/:userId/:day', checkIsAdmin, async (function (req, r
     }
     
 }));
-router.get('/:partId/borrowByUser/:day', async (function (req, res, next) {
+router.get('/:partId/borrowByUser/:day/:manage', async (function (req, res, next) {
     var userId = req.session.user._id;
     var partId = req.params.partId;
     var day = req.params.day;
+    var manage = req.params.manage;
     var borrow = {
         userId: userId,
         partId: partId,
         day: parseInt(day),
         bool: false,
-        approval: false
+        approval: false,
+        managed_by: manage
     };
     try {
         var part = await (InventoryModel.getRawPartById(borrow.partId));

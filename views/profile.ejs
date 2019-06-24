@@ -36,7 +36,7 @@
                     <hr>
                     <div class="borrowItem item" data-id="<%= item.id %>" data-partid="<%= item.partId%>" data-userid="<%= user.id%>">
                         <div class="ui small image">
-                            <a href="/inventory/<%= item.partId %>"><img class="item-image" style="height: 180px;" src="/img/<%= item.image %>"></a>
+                            <a href="/inventory/<%= item.partId %>"><img class="item-image" style="height: 180px;" src="<%= item.image %>"></a>
                         </div>
                         <div class="content">
                             <div class="header">
@@ -79,7 +79,7 @@
                             </div>
                             <% if(!item.bool && !item.approval){%>
                                 <div class="extra returnBtn">
-                                    <div class="ui right floated primary button">Return the part  <i class="right chevron icon"></i> </div>
+                                    <div class="ui right floated primary button">Return this Book  <i class="right chevron icon"></i> </div>
                                 </div>
                             <% } else if(!item.bool && item.approval) { %>
                                 <div class="extra returnBtn">

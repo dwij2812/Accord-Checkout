@@ -39,10 +39,10 @@ A Minimal Inventory Management and Part tracking system for Accordians built usi
    (using "Visual C++ build tools" workload) or [Visual Studio 2017 Community](https://visualstudio.microsoft.com/pl/thank-you-downloading-visual-studio/?sku=Community)
    (using the "Desktop development with C++" workload).
    
-   - Launch cmd and type  `$ npm config set msvs_version 2017`.
-   - Upon Successful completion of the sbove steps we will configure node-gyp to use the C++ Buil-Tools using Microsoft's [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools) using `$ npm install --global --production windows-build-tools` from an elevated PowerShell or CMD.exe (run as Administrator).
+   - Launch cmd and type  **`$ npm config set msvs_version 2017`.**
+   - Upon Successful completion of the sbove steps we will configure node-gyp to use the C++ Buil-Tools using Microsoft's [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools) using **`$ npm install --global --production windows-build-tools`** from an elevated PowerShell or CMD.exe (run as Administrator).
 
-3. We will Install all the dependencies (node_modules) required for the app using the command `$ npm install`
+3. We will Install all the dependencies (node_modules) required for the app using the command **`$ npm install`**
 
 4. Start MongoDB compass and connect to the MongoDB Server on its Default Port.
 5. Now Navigate to the Project's Root Directory and launch the app using the command `node index`.

@@ -6,13 +6,60 @@
 </style>
 
 <div class="ui stackable four column grid" style="padding: 0 100px;">
+        <% if (user) { %>
+            <div class="partWrapper ui vertically divided grid" style="padding: 0 200px;">
+                    <h1 style="font-size: 26px; color: #494949;">
+                        Hello, <%= user.name %>
+                    </h1>
+                    <div class="four column row">
+                        <div class="column" style="display: flex;">
+                            <div>
+                                Profile Overview
+                            </div>
+                            <div style=" margin-left: 30px;">
+                                <h2><%= borrowCount %></h2>
+                                Books Awaiting Return
+                            </div>
+                        </div>
+                        <div class="column">
+                            <% if (user.isAdmin) { %>
+                                <div style=" margin-left: 30px;">
+                                    <h2><%= approvalCount %></h2>
+                                    Return Approvals Pending
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="column">
+                            <% if (user.isAdmin) { %>
+                                <div style=" margin-left: 30px;">
+                                    <h2><%= userApprovalCount %></h2>
+                                    User Account Approvals Pending
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="column">
+                                <a class="item" href="/profile/<%= user._id %>"><i class="user icon"></i>Manage your Account</a> 
+                                <% if (user.isAdmin) { %>
+                                    <br>
+                                    <a class="item" href="/approval"><i class="clock icon"></i>Return Approvals</a>
+                                    <br>
+                                    <a class="item" href="/inventory"><i class="configure icon"></i>Manage Inventory</a>
+                                    <br>
+                                    <a class="item" href="/userApproval"><i class="add user icon"></i>Approve Users</a>
+                                <% } %>             
+                        </div>
+                        
+                    </div>
+                </div>
+
+        <% } %>
     <% parts.forEach(function (part) { %>
         <%if (part.show) {%>
             <div class="column bookItem" style="margin: 20px 0;">
                 <div class="ui card cardWrap">
 
                     <a class="image" href="/inventory/<%= part._id%>">
-                        <img class="imgTarget" style="height: 360px;" src="<%= "/img/"+part.image %>">
+                        <img class="imgTarget" style="height: 360px;" src="<%= part.image %>">
                     </a>
                     <div class="content">
                         <div  style="width: 100%;display: flex; justify-content: space-between;">
@@ -43,11 +90,7 @@
 
     $(document).ready(function () {
         $('.ui .rating').rating('disable');
-        $('.imgTarget').each(function (index, item) {
-            if (item.src.split("http://localhost:3000/img/")[1].slice(0, 4) === "http") {
-                item.src = item.src.split("http://localhost:3000/img/")[1];
-            }
-        });
+        
 
         var likeBtn = $('i');
         $.each(likeBtn, function(index, item) {

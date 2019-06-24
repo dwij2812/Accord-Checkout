@@ -19,5 +19,28 @@ module.exports = {
             })
             .addCreatedAt()
             .exec();
+    },
+    getAdmins: function () {
+        return User
+            .find({
+                isAdmin: true
+            })
+            .addCreatedAt()
+            .exec();
+    },
+    approveUser: function (userid) {
+        return User.update({ id: userid, isActive: false}, { $set: { isActive: true}}).exec();
+    },
+    countApprovals: function () {
+        return User
+                    .count({isActive: false})
+                    .exec();
+    },
+    getAllPendingUsers: function(){
+        return User
+            .find({ isActive:false})
+            .sort({ _id: -1 })
+            .addCreatedAt()
+            .exec();
     }
 };

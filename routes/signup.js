@@ -41,7 +41,8 @@ router.post('/', function (req, res, next) {
         gender: userData.gender,
         bio: userData.bio,
         avatar: userData.avatar,
-        isAdmin: false
+        isAdmin: false,
+        isActive: false
     };
     UserModel.create(user)
         .then(function (result) {
@@ -53,7 +54,7 @@ router.post('/', function (req, res, next) {
         .catch(function (e) {
             fs.unlink(req.files.avatar.path);
             if (e.message.match('E11000 duplicate key')) {
-                req.flash('error', 'This Student\'s ID has been used, please try another one!');
+                req.flash('error', 'Employee\'s ID has been used, please try another one!');
                 return res.redirect('/signup');
             }
             next(e);

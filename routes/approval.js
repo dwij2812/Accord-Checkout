@@ -11,8 +11,8 @@ var InventoryModel = require('../models/inventory');
 router.get('/', checkIsAdmin, async (function (req, res, next) {
     var result = [];
     try {
-        var users = await (BorrowPartModel.getAllBorrowParts());
-        users.forEach(async (function (user) {
+        var users = await (BorrowPartModel.getAllBorrowParts(req.session.user.id));
+        users.forEach(async (function(user){
             var userInfo = await (UserModel.getUserByDefaultId(user.userId));
             var partInfo = await (InventoryModel.getPartById(user.partId));
             result.push({
@@ -32,16 +32,16 @@ router.get('/', checkIsAdmin, async (function (req, res, next) {
             })
         }));
 
-        setTimeout(function () {
+        setTimeout(function() {
             res.render('approval', {
                 borrowUser: result
             });
-        }, 1000);
+        }, 1000);  
 
     } catch (error) {
         next();
     }
-
+      
 }));
 
 module.exports = router;

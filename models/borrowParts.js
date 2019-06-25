@@ -50,5 +50,10 @@ module.exports = {
         return BorrowParts
                     .count({ managed_by: userId, bool:false, approval:true})
                     .exec();
+    },
+    getTotalBorrowed: function() {
+        return BorrowParts
+                    .count({bool: false})
+                    .exec();
     }
 }

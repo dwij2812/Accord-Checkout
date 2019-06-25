@@ -15,7 +15,7 @@
                         <div class="field">
                             <div class="ui left icon input">
                                 <i class="user icon"></i>
-                                <input type="text" name="id" placeholder="Your User ID">
+                                <input type="text" name="id" placeholder="Your Employee ID">
                             </div>
                         </div>
                         <div class="field">
@@ -50,13 +50,13 @@
                             identifier: 'id',
                             rules: [{
                                 type: 'empty',
-                                prompt: 'User ID should not be empty'
+                                prompt: 'Employee ID should not be empty'
                             }, {
                                 type: 'exactLength[5]',
-                                prompt: 'Your User ID\'s format is not correct,please enter 5 digits'
+                                prompt: 'Your Employee ID\'s format is not correct,please enter 5 digits'
                             }, {
                                 type: 'number',
-                                prompt: 'Your User ID\'s format is not correct,please enter a valid number'
+                                prompt: 'Your Employee ID\'s format is not correct,please enter a valid number'
                             }]
                         },
                         userpass: {

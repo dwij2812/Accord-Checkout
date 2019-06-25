@@ -21,6 +21,7 @@ router.get('/', async (function (req, res, next) {
         try {
             var approvalCount = 0;
             var userApprovalCount=0;
+            var TotalBorrowCount= await(BorrowPartModel.getTotalBorrowed());
             var borrowCount = await (BorrowPartModel.BorrowCountByUser(userId));
             var user = await (UserModel.getUserByDefaultId(userId));
             if (user.isAdmin) {
@@ -51,9 +52,11 @@ router.get('/', async (function (req, res, next) {
     result = parts;
     res.render('home', {
         parts: result,
+        partsall:result,
         borrowCount: borrowCount,
         approvalCount: approvalCount,
-        userApprovalCount: userApprovalCount
+        userApprovalCount: userApprovalCount,
+        TotalBorrowCount: TotalBorrowCount
     });
 }));
 

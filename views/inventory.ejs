@@ -53,7 +53,7 @@
                             <div class="ui star rating" data-rating="<%= part.score %>" data-max-rating="5"></div>
                         </td>
                         <td class="ui right aligned single line">
-                            Has lent <%= part.borrowCount %> parts <br>
+                            <%= part.borrowCount %> <br>
                             <% if (part.borrowCount > 0) { %>
                             <a href="/borrow/<%= part._id %>">Examine</a>
                             <% } %>
@@ -106,9 +106,11 @@
                                 <label style="width:100px;">Managed By:</label>
                                 <!--input style="width:500px;" class="location" placeholder="Managed By:" type="text" name="location" id="location"-->
                                 <select class="location" placeholder="Managed By:" type="text" name="location" id="location">
+                                    <% if(admins){ %>
                                         <% admins.forEach(function (admin) { %>
                                             <option value="<%= admin.id %>"><%= admin.name %></option>
                                         <% }) %>
+                                    <% } %>
                                 </select>
                             </div>
                             <div class="field required inline">
@@ -129,7 +131,7 @@
                             </div>
                             <div class="field required  inline">
                                 <label style="width:100px;">Score</label>
-                                <input style="width:500px;" class="score" placeholder="Score" type="number" name="score">
+                                <input style="width:500px;" class="score" placeholder="Score" type="number" name="score" min="1" max="5" id="score">
                             </div>
                             <div class="field  inline">
                                 <label style="width:100px;">Image</label>
@@ -188,7 +190,7 @@
                             </div>
                             <div class="field required">
                                 <label>Score</label>
-                                <input class="score" placeholder="Score" type="number" name="score">
+                                <input class="score" placeholder="Score" type="number" name="score" min="1" max="5">
                             </div>
                             <div class="field required">
                                 <label>Description</label>
@@ -503,6 +505,7 @@
                         document.getElementById("published_date").value = (book["volumeInfo"]["publishedDate"]);
                         document.getElementById("image_url").value = (book["volumeInfo"]["imageLinks"]["thumbnail"]);
                         document.getElementById("description").value = (book["volumeInfo"]["description"]);
+                        document.getElementById("score").value = parseInt(book["volumeInfo"]["averageRating"]);
                       }
                       else{
                           alert("No Book Related to the ISBN entered found in the Database");

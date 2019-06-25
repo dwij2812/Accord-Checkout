@@ -53,6 +53,51 @@
                 </div>
 
         <% } %>
+
+        <% if (user) { %>
+            <% var countavail = 0; var countbooks=0; %> 
+            <% partsall.forEach(function (part) { %>
+                <% if (part.show) { %>
+                    <% countavail+= part.inventory;countbooks+=1 %>
+                <% } %>
+            <% }) %>
+            <div class="partWrapper ui vertically divided grid" style="padding: 0 200px;">
+                    <h2 style="font-size: 26px; color: #494949;">
+                        Current Status
+                    </h2>
+                    <div class="four column row">
+                        <div class="column" style="display: flex;">
+                            <div>
+                                Overview
+                            </div>
+                            <div style=" margin-left: 30px;">
+                                    <h2><%= countbooks %></h2>
+                                    Titles Available
+                                </div>
+                            
+                        </div>
+                        <div class="column">
+                                <div style=" margin-left: 30px;">
+                                        <h2><%= countavail+TotalBorrowCount %></h2>
+                                        Total Copies
+                                    </div>  
+                        </div>
+                        <div class="column">
+                                <div style=" margin-left: 30px;">
+                                        <h2><%= countavail %></h2>
+                                        Copies Available for Borrowing
+                                    </div>  
+                        </div>
+                        <div class="column">
+                                <div style=" margin-left: 30px;">
+                                    <h2><%= TotalBorrowCount %></h2>
+                                    Copies Borrowed
+                                </div>
+                        </div>                        
+                    </div>
+                </div>
+        <% } %>
+
     <% parts.forEach(function (part) { %>
         <%if (part.show) {%>
             <div class="column bookItem" style="margin: 20px 0;">

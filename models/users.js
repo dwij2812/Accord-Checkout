@@ -6,14 +6,18 @@ module.exports = {
     },
     getUserById: function (id) {
         return User
-                .findOne({ id: id })
-                .addCreatedAt()
-                .exec();
+            .findOne({
+                id: id
+            })
+            .addCreatedAt()
+            .exec();
     },
-    getUserByDefaultId: function(id) {
+    getUserByDefaultId: function (id) {
         return User
-                .findOne({ _id: id})
-                .addCreatedAt()
-                .exec();
+            .findOne({
+                _id: id
+            })
+            .addCreatedAt()
+            .exec();
     }
 };

@@ -2,7 +2,7 @@
 
 [![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-green.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-![Depfu](https://img.shields.io/depfu/dwij2812/Accord-Checkout.svg?style=for-the-badge)
+![David](https://img.shields.io/david/dwij2812/Accord-Checkout.svg?style=for-the-badge)
 
 
 [![HitCount](http://hits.dwyl.io/dwij2812/Accord-Checkout.svg)](http://hits.dwyl.io/dwij2812/Accord-Checkout)

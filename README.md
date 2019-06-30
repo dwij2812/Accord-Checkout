@@ -1,6 +1,6 @@
 # Accord-Checkout
 
-[![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-informational.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![made-with-nodejs](https://img.shields.io/badge/Made%20with-Node.js-green.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 ![Depfu](https://img.shields.io/depfu/dwij2812/Accord-Checkout.svg?style=for-the-badge)
 
@@ -8,6 +8,25 @@
 
 
 A Minimal Inventory Management and Part tracking system for Accordians built using Node.JS
+
+## Features
+
+#### For Users
+
+  - Users can make accounts using Signup page and the use the Sign-in page to log on into the account.
+  - Login Sessions are maintained so no need to login everytime if you use them frequently.
+  - Users can search for parts in the inventory using any attributes like model number, product make(brand), product name etc.
+  - Users can mark their favourite parts so they can appear above others everytime.
+  -  Borrow parts from the inventory by click of a button for upto 30 days.
+  -  User can view the entire transaction log of the parts that were issued by him/her at any given point of time using this system.
+  -  For return of any part the user can create create return requests which wil be approved by the administrator upon successful return of the parts.
+
+#### For Administrators
+  - Add/Delete/Edit parts in the inventory.
+  - Create new user accounts.
+  - View borrow history either based on per part or sorted based on a particular user.
+  - Issue parts to the user directly for any number of days and the same reflects in user account upon confirmation.
+  - Approve return requests created by the users to complete the return of a part back into the inventory after use.
 
 ## Instructions to Run Checkout
 

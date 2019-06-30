@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "express-formidable": "1.0.0",
     "express-session": "1.15.6",
-    "express-winston": "2.4.0",
+    "express-winston": "2.6.0",
     "hash-set": "^1.0.1",
     "marked": "^0.6.2",
     "moment": "^2.24.0",

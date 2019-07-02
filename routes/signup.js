@@ -17,6 +17,7 @@ router.post('/', function (req, res, next) {
         id: req.fields.id,
         name: req.fields.name,
         gender: req.fields.gender,
+        email: req.fields.email,
         bio: req.fields.bio,
         avatar: req.files.avatar.path.split(path.sep).pop(),
         password: req.fields.password,
@@ -24,7 +25,7 @@ router.post('/', function (req, res, next) {
     }
     try {
         if (userData.password !== userData.repassword) {
-            throw new Error('not match');
+            throw new Error('Password do not match');
         }
     } catch (e) {
         fs.unlink(req.files.avatar.path);
@@ -38,6 +39,7 @@ router.post('/', function (req, res, next) {
         id: userData.id,
         name: userData.name,
         password: userData.password,
+        email: userData.email,
         gender: userData.gender,
         bio: userData.bio,
         avatar: userData.avatar,

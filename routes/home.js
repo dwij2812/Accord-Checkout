@@ -9,6 +9,7 @@ var checkLogin = require('../middlewares/check').checkLogin;
 var FavoriteModel = require('../lib/mongo').Favorite;
 var BorrowPartModel = require('../models/borrowParts');
 var UserModel = require('../models/users');
+var nodeMailer = require('nodemailer');
 
 
 router.get('/', async (function (req, res, next) {
@@ -60,6 +61,32 @@ router.get('/', async (function (req, res, next) {
     });
 }));
 
+router.get('/send-email', function (req, res) {
+    let transporter = nodeMailer.createTransport({
+        host: '192.168.1.248',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'netadmin@accord-soft.com',
+            pass: 'accord_123'
+        }
+    });
+    let mailOptions = {
+        from: '"Library System" <library@accord-soft.com> ', // sender address
+        to: "dwijhariket@gmail.com", // list of receivers
+        subject: "Ping Mail", // Subject line
+        text: "This is an Auto-Generated Mail from Accord Checkout", // plain text body
+        html: '<h1>Thank You for Using Accord Checkout</h1>' // html body
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+            res.redirect('/home');
+        });
+});
 
 router.get('/:partId/favorite', async (function (req, res) {
     var userId = new mongo.ObjectId(req.session.user._id);

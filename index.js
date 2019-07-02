@@ -9,6 +9,7 @@ var routes = require('./routes');
 var pkg = require('./package');
 var winston = require('winston');
 var expressWinston = require('express-winston');
+var nodeMailer = require('nodemailer');
 
 var app = express();
 app.use(function(req, res, next) {

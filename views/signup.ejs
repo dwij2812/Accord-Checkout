@@ -21,6 +21,10 @@
                 <input placeholder="Repeat your password" type="password" name="repassword">
             </div>
             <div class="field required">
+                <label>Email Address</label>
+                <input placeholder="Your Email Address" type="email" name="email">
+            </div>
+            <div class="field required">
                 <label>Gender</label>
                 <select class="ui compact selection dropdown" name="gender">
                     <option value="m">Male</option>
@@ -89,6 +93,16 @@
                         },{
                             type: 'match[password]',
                             prompt: 'Repassword should be same as Password!'
+                        }]
+                    },
+                    email: {
+                        identifier: 'email',
+                        rules: [{
+                            type: 'empty',
+                            prompt: 'Email should not be empty'
+                        },{
+                            type: 'email',
+                            prompt: 'Please Enter a valid mail address'
                         }]
                     },
                     gender: {

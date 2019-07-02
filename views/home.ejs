@@ -18,14 +18,14 @@
                             </div>
                             <div style=" margin-left: 30px;">
                                 <h2><%= borrowCount %></h2>
-                                Books Awaiting Return
+                                <a href="/profile/<%= user._id %>">Books Awaiting Return</a>
                             </div>
                         </div>
                         <div class="column">
                             <% if (user.isAdmin) { %>
                                 <div style=" margin-left: 30px;">
                                     <h2><%= approvalCount %></h2>
-                                    Return Approvals Pending
+                                    <a href="/approval">Return Approvals Pending</a>
                                 </div>
                             <% } %>
                         </div>
@@ -33,20 +33,9 @@
                             <% if (user.isAdmin) { %>
                                 <div style=" margin-left: 30px;">
                                     <h2><%= userApprovalCount %></h2>
-                                    User Account Approvals Pending
+                                    <a href="/userApproval">User Account Approvals Pending</a>
                                 </div>
                             <% } %>
-                        </div>
-                        <div class="column">
-                                <a class="item" href="/profile/<%= user._id %>"><i class="user icon"></i>Manage your Account</a> 
-                                <% if (user.isAdmin) { %>
-                                    <br>
-                                    <a class="item" href="/approval"><i class="clock icon"></i>Return Approvals</a>
-                                    <br>
-                                    <a class="item" href="/inventory"><i class="configure icon"></i>Manage Inventory</a>
-                                    <br>
-                                    <a class="item" href="/userApproval"><i class="add user icon"></i>Approve Users</a>
-                                <% } %>             
                         </div>
                         
                     </div>
@@ -89,10 +78,17 @@
                                     </div>  
                         </div>
                         <div class="column">
+                            <% if (user.isAdmin) { %>
                                 <div style=" margin-left: 30px;">
                                     <h2><%= TotalBorrowCount %></h2>
-                                    Copies Borrowed
+                                    <a href="/inventory">Copies Borrowed</a>
                                 </div>
+                            <% }else{ %>
+                                <div style=" margin-left: 30px;">
+                                        <h2><%= TotalBorrowCount %></h2>
+                                        <a href="/borrow_summary">Copies Borrowed</a>
+                                </div>
+                            <% } %>
                         </div>                        
                     </div>
                 </div>

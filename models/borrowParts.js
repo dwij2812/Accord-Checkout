@@ -55,5 +55,12 @@ module.exports = {
         return BorrowParts
                     .count({bool: false})
                     .exec();
+    },
+    BorrowSummary: function(){
+        return BorrowParts
+            .find({ bool:false })
+            .sort({ _id: -1 })
+            .addCreatedAt()
+            .exec();
     }
 }

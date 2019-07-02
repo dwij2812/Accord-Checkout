@@ -41,7 +41,7 @@ app.use(require('express-formidable')({
 }));
 
 app.locals.blog = {
-    title: 'Welcome to Accord :: CheckOut'
+    title: 'Accord CheckOut'
 };
 
 app.use(function (req, res, next) {

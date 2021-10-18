@@ -25,7 +25,7 @@
     "express-session": "1.17.0",
     "express-winston": "4.0.1",
     "hash-set": "^1.0.1",
-    "marked": "^0.6.2",
+    "marked": "^3.0.0",
     "moment": "^2.24.0",
     "mongolass": "3.1.5",
     "node-gyp": "^4.0.0",
